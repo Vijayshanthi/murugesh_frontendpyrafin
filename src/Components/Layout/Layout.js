@@ -18,6 +18,11 @@ import IncomeDashboard from "../../Income/IncomeDashboard";
 import ExpenseDashboard from "../../Expense/ExpenseDashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import TdsDashboard from "../TDS/TdsDashboard";
+import Gst from "../GST/Gst";
+// import PayrollDashboard from "../Payroll/PayrollDashboard";
 
 const Layout = () => {
   const [showNavBar, setShowNavBar] = useState(true);
@@ -40,6 +45,10 @@ const Layout = () => {
       return <IncomeDashboard />;
     } else if (selectedTab === "expenses") {
       return <ExpenseDashboard />;
+    } else if (selectedTab === "tdsdashboard") {
+      return <TdsDashboard />;
+    } else if (selectedTab === "gst") {
+      return <Gst />;
     }
   };
 
@@ -128,6 +137,51 @@ const Layout = () => {
                 <AccountBalanceWalletIcon style={{ color: "#FBC91B" }} />
               </ListItemIcon>
               <ListItemText primary="Expenses" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
+              key="tdsdashboard"
+              onClick={() => handleTabClick("tdsdashboard")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <AccountBalanceIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="TDS" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
+              key="gst"
+              onClick={() => handleTabClick("gst")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="GST" style={{ color: "#FBC91B" }} />
+            </ListItem>
+            <ListItem
+              button
+              key="payroll"
+              onClick={() => handleTabClick("payroll")}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#333",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
+              </ListItemIcon>
+              <ListItemText primary="Payroll" style={{ color: "#FBC91B" }} />
             </ListItem>
             <ListItem
               button
