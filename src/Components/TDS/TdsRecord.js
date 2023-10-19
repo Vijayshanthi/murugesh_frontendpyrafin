@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 
-export default function TdsRecord({}) {
+export default function TdsRecord({ }) {
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export default function TdsRecord({}) {
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8099/tds/getexpensetdsdetails`, {
+      .get(`http://188.166.228.50:8089/tds/getexpensetdsdetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },
