@@ -1,16 +1,42 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Grid, Container } from "@mui/material";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import Dialog from "@mui/material/Dialog";
+import moment from "moment";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import { Grid } from "@mui/material";
 import axios from "axios";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { Typography } from "@mui/material";
 
-export default function TdsRecord({}) {
-  const [rows, setRows] = useState([]);
-  const [rowModesModel, setRowModesModel] = useState({});
+export default function TdsRecord({
+  totalExpenseDetails,
+  totalIndirectExpenseDetails,
+}) {
   const navigate = useNavigate();
+
+  const [open, setOpen] = React.useState(false);
+  const [deleteopen, setdeleteOpen] = React.useState(false);
+  const [deleteid, setDeleteId] = useState(0);
+
+  const [rows, setRows] = useState([]);
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [rowModesModel, setRowModesModel] = useState({});
+  const [validationError, setValidationError] = useState("");
+  const [actionTake, setActionTake] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -163,17 +189,14 @@ export default function TdsRecord({}) {
   ];
 
   return (
-    <Container
-      maxWidth="xl"
-      style={{ marginTop: "20px", height: "100vh", width: "100%" }}
-    >
-      <Grid container>
-        <Grid item xs={12}>
+    <>
+      <Grid container xs={12}>
+        <Grid item md={6}>
           <Typography
-            variant="h4"
-            color="primary"
-            style={{
-              marginBottom: "20px",
+            sx={{
+              fontSize: "220%",
+              color: "primary",
+              padding: "20px",
               fontFamily: "Young Serif",
               color: "#2196f3",
             }}
@@ -211,6 +234,6 @@ export default function TdsRecord({}) {
           }}
         />
       </Box>
-    </Container>
+    </>
   );
 }

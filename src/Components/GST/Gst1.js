@@ -1,25 +1,46 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import Dialog from "@mui/material/Dialog";
+import moment from "moment";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import { Grid, Container } from "@mui/material";
 import axios from "axios";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 
-export default function TdsRecord({}) {
-  const [rows, setRows] = useState([]);
-  const [rowModesModel, setRowModesModel] = useState({});
+export default function Gst1({
+  totalExpenseDetails,
+  totalIndirectExpenseDetails,
+}) {
   const navigate = useNavigate();
-
+  const [open, setOpen] = React.useState(false);
+  const [deleteopen, setdeleteOpen] = React.useState(false);
+  const [deleteid, setDeleteId] = useState(0);
+  const [rows, setRows] = useState([]);
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [rowModesModel, setRowModesModel] = useState({});
+  const [validationError, setValidationError] = useState("");
+  const [actionTake, setActionTake] = useState(false);
   const today = new Date().toISOString().split("T")[0];
-
   useEffect(() => {
     getExpenseRecord();
   }, []);
   const getExpenseRecord = async () => {
     await axios
-      .get(`http://localhost:8099/tds/getexpensetdsdetails`, {
+      .get(`http://localhost:8099/gst/getincomedetails`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("tokenauth")}`,
         },
@@ -36,7 +57,6 @@ export default function TdsRecord({}) {
         }
       });
   };
-
   const columns = [
     {
       field: "ActionDate",
@@ -57,10 +77,8 @@ export default function TdsRecord({}) {
         }
         return new Date(actionDate);
       },
-
       headerClassName: "super-app-theme--header",
     },
-
     {
       field: "InvoiceNumber",
       headerName: (
@@ -74,25 +92,11 @@ export default function TdsRecord({}) {
       headerAlign: "center",
       headerClassName: "super-app-theme--header",
     },
-
-    {
-      field: "Section",
-      headerName: (
-        <div>
-          <b>Section</b>
-        </div>
-      ),
-      width: 200,
-      editable: true,
-      align: "left",
-      headerAlign: "center",
-      headerClassName: "super-app-theme--header",
-    },
     {
       field: "Particulars",
       headerName: (
         <div>
-          <b>Particulars </b>
+          <b>Company </b>
         </div>
       ),
       width: 200,
@@ -102,32 +106,10 @@ export default function TdsRecord({}) {
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "TDS",
+      field: "CGST",
       headerName: (
         <div>
-          <b>TDS % </b>
-        </div>
-      ),
-      type: "number",
-      width: 130,
-      editable: true,
-      align: "left",
-      headerAlign: "center",
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => {
-        const value = params.value || 0;
-        return (
-          <span>
-            <b>{value}</b>
-          </span>
-        );
-      },
-    },
-    {
-      field: "TDSAmount",
-      headerName: (
-        <div>
-          <b> TDS & Deduction </b>
+          <b> CGST </b>
         </div>
       ),
       type: "number",
@@ -139,10 +121,39 @@ export default function TdsRecord({}) {
     },
 
     {
+      field: "SGST",
+      headerName: (
+        <div>
+          <b> SGST </b>
+        </div>
+      ),
+      type: "number",
+      width: 130,
+      editable: true,
+      align: "left",
+      headerAlign: "center",
+      headerClassName: "super-app-theme--header",
+    },
+
+    {
+      field: "IGST",
+      headerName: (
+        <div>
+          <b> IGST </b>
+        </div>
+      ),
+      type: "number",
+      width: 130,
+      editable: true,
+      align: "left",
+      headerAlign: "center",
+      headerClassName: "super-app-theme--header",
+    },
+    {
       field: "TotalAmount",
       headerName: (
         <div>
-          <b>Total Amount </b>
+          <b>Total </b>
         </div>
       ),
       type: "number",
@@ -161,24 +172,23 @@ export default function TdsRecord({}) {
       headerClassName: "super-app-theme--header",
     },
   ];
-
   return (
     <Container
       maxWidth="xl"
       style={{ marginTop: "20px", height: "100vh", width: "100%" }}
     >
-      <Grid container>
-        <Grid item xs={12}>
+      <Grid container xs={12}>
+        <Grid item md={6}>
           <Typography
-            variant="h4"
-            color="primary"
-            style={{
-              marginBottom: "20px",
+            sx={{
+              fontSize: "220%",
+              color: "primary",
+              padding: "20px",
               fontFamily: "Young Serif",
-              color: "#2196f3",
+              color: "#2196F3",
             }}
           >
-            Tax Deducted at Source
+            GST 1 - INCOME
           </Typography>
         </Grid>
       </Grid>

@@ -23,11 +23,25 @@ import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import TdsDashboard from "../TDS/TdsDashboard";
 import Gst from "../GST/Gst";
 // import PayrollDashboard from "../Payroll/PayrollDashboard";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Gst1 from "../GST/Gst1";
+import Gst2 from "../GST/Gst2";
 
 const Layout = () => {
   const [showNavBar, setShowNavBar] = useState(true);
   const [selectedTab, setSelectedTab] = useState("dashboard");
+  const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+
+  const handleGSTClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleGSTClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleLogout = async () => {
     try {
@@ -39,16 +53,50 @@ const Layout = () => {
   };
 
   const renderSelectedComponent = () => {
+    const componentStyle = {
+      flex: 1,
+      backgroundImage:
+        'url("https://getwallpapers.com/wallpaper/full/1/3/a/465073.jpg")',
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      // Add more styles if needed
+    };
     if (selectedTab === "dashboard") {
-      return <Dashboard />;
+      return (
+        <div style={componentStyle}>
+          <Dashboard />
+        </div>
+      );
     } else if (selectedTab === "income") {
-      return <IncomeDashboard />;
+      return (
+        <div style={componentStyle}>
+          <IncomeDashboard />
+        </div>
+      );
     } else if (selectedTab === "expenses") {
-      return <ExpenseDashboard />;
+      return (
+        <div style={componentStyle}>
+          <ExpenseDashboard />
+        </div>
+      );
     } else if (selectedTab === "tdsdashboard") {
-      return <TdsDashboard />;
-    } else if (selectedTab === "gst") {
-      return <Gst />;
+      return (
+        <div style={componentStyle}>
+          <TdsDashboard />
+        </div>
+      );
+    } else if (selectedTab === "incomegst") {
+      return (
+        <div style={componentStyle}>
+          <Gst1 />
+        </div>
+      );
+    } else if (selectedTab === "expensegst") {
+      return (
+        <div style={componentStyle}>
+          <Gst2 />
+        </div>
+      );
     }
   };
 
@@ -156,7 +204,7 @@ const Layout = () => {
             <ListItem
               button
               key="gst"
-              onClick={() => handleTabClick("gst")}
+              onClick={handleGSTClick}
               sx={{
                 "&:hover": {
                   backgroundColor: "#333",
@@ -167,22 +215,28 @@ const Layout = () => {
                 <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
               </ListItemIcon>
               <ListItemText primary="GST" style={{ color: "#FBC91B" }} />
+              <ArrowDropDownIcon style={{ color: "#FBC91B" }} />
             </ListItem>
-            <ListItem
-              button
-              key="payroll"
-              onClick={() => handleTabClick("payroll")}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#333",
-                },
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleGSTClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
               }}
             >
-              <ListItemIcon>
-                <ArrowOutwardIcon style={{ color: "#FBC91B" }} />
-              </ListItemIcon>
-              <ListItemText primary="Payroll" style={{ color: "#FBC91B" }} />
-            </ListItem>
+              <MenuItem onClick={() => handleTabClick("incomegst")}>
+                GST-1
+              </MenuItem>
+              <MenuItem onClick={() => handleTabClick("expensegst")}>
+                GST-2
+              </MenuItem>
+            </Menu>
             <ListItem
               button
               key="logout"
